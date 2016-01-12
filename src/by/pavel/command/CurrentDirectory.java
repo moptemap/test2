@@ -5,7 +5,7 @@ import java.io.IOException;
 public class CurrentDirectory extends AbstractCommand {
 
     @Override
-    public void runCommand() throws IOException {
+    public void runCommand(String... args) throws IOException {
         printCurrentDirectory();
     }
 

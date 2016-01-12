@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 
 public abstract class AbstractCommand {
 
-    public abstract void runCommand() throws IOException;
+    public abstract void runCommand(String... args) throws IOException;
 
     protected void printListFromOSCommand(String[] windowsCom, String unixCom) throws IOException {
         String line;

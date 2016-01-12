@@ -2,6 +2,7 @@ package by.pavel;
 
 import by.pavel.command.AbstractCommand;
 import by.pavel.config.Config;
+import by.pavel.utils.ParseCommandUtil;
 
 import java.io.*;
 
@@ -13,9 +14,14 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         String command = null;
+        String[] comArgs = null;
         String commandClass = null;
+        String userLine = null;
 
-        while(!(command = br.readLine()).equals("exit")) {
+        while(!(userLine = br.readLine()).equals("exit")) {
+            command = ParseCommandUtil.parseCommand(userLine);
+            comArgs = ParseCommandUtil.parseArgs(userLine);
+
             commandClass = Config.getInstance().getCommands().get(command);
 
             if(commandClass != null) {
@@ -23,7 +29,7 @@ public class Main {
 
                 if(AbstractCommand.class.equals(clazz.getSuperclass())) {
                     AbstractCommand abstractCommand = (AbstractCommand) clazz.newInstance();
-                    abstractCommand.runCommand();
+                    abstractCommand.runCommand(comArgs);
                 }
             } else {
                 System.err.println("Command not found");
