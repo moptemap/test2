@@ -2,9 +2,7 @@ package by.pavel.command;
 
 import by.pavel.config.Config;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class RunningProcessList extends AbstractCommand {
 
