@@ -8,26 +8,31 @@ import java.io.InputStreamReader;
 
 public abstract class AbstractCommand {
 
+    protected Process p;
+    protected BufferedReader br;
+
     public abstract void runCommand(String... args) throws IOException;
 
     protected void printListFromOSCommand(String[] windowsCom, String unixCom) throws IOException {
+        setProcessAndBufferedReader(Config.getInstance().isWindowsOS(), windowsCom, unixCom);
+
         String line;
-
-        Process p = null;
-        BufferedReader br = null;
-
-        if(Config.getInstance().isWindowsOS()) {
-            p = Runtime.getRuntime().exec(windowsCom);
-            br = new BufferedReader(new InputStreamReader(p.getInputStream(), "cp866"));
-        } else {
-            p = Runtime.getRuntime().exec(unixCom);
-            br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        }
 
         while ((line = br.readLine()) != null) {
             System.out.println(line);
         }
 
         br.close();
+    }
+
+    protected void setProcessAndBufferedReader(boolean isWindows, String[] windowsCom, String unixCom)
+            throws IOException {
+        if(isWindows) {
+            p = Runtime.getRuntime().exec(windowsCom);
+            br = new BufferedReader(new InputStreamReader(p.getInputStream(), "cp866"));
+        } else {
+            p = Runtime.getRuntime().exec(unixCom);
+            br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        }
     }
 }
